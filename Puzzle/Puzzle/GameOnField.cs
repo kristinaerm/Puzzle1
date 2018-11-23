@@ -77,7 +77,7 @@ namespace Puzzle
             }
             for (int i = 1; i < horisontalCountOfPieces; i++)
             {
-                e.Graphics.DrawLine(p, i*(w+1), 25, i * (w + 1), 25+(h+1)*verticalCountOfPieces);
+                e.Graphics.DrawLine(p, i * (w + 1), 25, i * (w + 1), 25 + (h + 1) * verticalCountOfPieces);
             }
 
         }
@@ -126,6 +126,10 @@ namespace Puzzle
             if (form.Equals("треугольник"))
             {
                 triangle = true;
+            }
+            else
+            {
+                triangle = false;
             }
 
             id_puzzle = id;
@@ -543,6 +547,7 @@ namespace Puzzle
                     pb.AddRange(bottom_pic);
                     serial_number.AddRange(top_num);
                     serial_number.AddRange(bottom_num);
+                    syncShuffle<PicBox, int>(pb, serial_number);
 
                     buttonLeft.Enabled = true;
                     buttonLeft.Visible = true;
@@ -597,7 +602,7 @@ namespace Puzzle
 
                     //столько кусочков уместится на ленте
                     countOfPiecesOnStrip = (currentLocationOfStripZoneBottomRight.X - currentLocationOfStripZoneTopLeft.X - 5) / (w + 5);
-
+                    syncShuffle<PicBox, int>(pb, serial_number);
                     updateStrip();
                 }
             }
@@ -1163,6 +1168,42 @@ namespace Puzzle
                     this.Close();
                 }
             }
+        }
+
+        public object ifTransparentGetWhatIsUnder(object picture, Point pic, Point mouse)
+        {
+            bool www = true;
+            try
+            {
+                Color iii = ((Bitmap)((PicBox)picture).Image).GetPixel(mouse.X, mouse.Y);
+                if ((iii.ToArgb() == Color.Transparent.ToArgb()))
+                {
+                    int old_num = 0;
+                    while ((old_num < 2 * horisontalCountOfPieces * verticalCountOfPieces) && !(((PicBox)picture).Equals(pb[old_num])))
+                    {
+                        old_num++;
+                    }
+                    if (old_num == 2 * verticalCountOfPieces * horisontalCountOfPieces) return null;
+
+                    int r = 0;
+                    while ((r < 2 * verticalCountOfPieces * horisontalCountOfPieces) && www)
+                    {
+                        if ((r != old_num) && (pic.X + mouse.X > pb[r].Location.X) && (pic.X + mouse.X < (pb[r].Location.X + w)) && (pic.Y + mouse.Y > pb[r].Location.Y) && (pic.Y + mouse.Y < (pb[r].Location.Y + h)))
+                        {
+                            www = false;
+                            return pb[r];
+                        }
+                        r++;
+                    }
+                    return null;
+                }
+                return picture;
+            }
+            catch
+            {
+                return null;
+            }
+            
         }
 
         public void setOldLocation(object pic)
