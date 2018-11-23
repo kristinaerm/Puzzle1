@@ -523,6 +523,7 @@ namespace Puzzle
                     pb.AddRange(bottom_pic);
                     serial_number.AddRange(top_num);
                     serial_number.AddRange(bottom_num);
+                    syncShuffle<PicBox, int>(pb, serial_number);
 
                     buttonLeft.Enabled = true;
                     buttonLeft.Visible = true;
@@ -577,7 +578,7 @@ namespace Puzzle
 
                     //столько кусочков уместится на ленте
                     countOfPiecesOnStrip = (currentLocationOfStripZoneBottomRight.X - currentLocationOfStripZoneTopLeft.X - 5) / (w + 5);
-
+                    syncShuffle<PicBox, int>(pb, serial_number);
                     updateStrip();
                 }
             }
