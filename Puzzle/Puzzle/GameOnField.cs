@@ -54,7 +54,7 @@ namespace Puzzle
 
         private List<Bitmap> btm = new List<Bitmap>();
         private List<Bitmap> btm1 = new List<Bitmap>();
-        private List<PicBox> pb = new List<PicBox>();
+        public static List<PicBox> pb = new List<PicBox>();
         private List<int> serial_number = new List<int>();
 
         //для вывода на ленте
@@ -67,7 +67,7 @@ namespace Puzzle
         public static bool triangle = false;
 
         private static Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-
+     
         void Form1_Paint(object sender, PaintEventArgs e)
         {
             Pen p = new Pen(Brushes.Gray, 1);
@@ -81,8 +81,25 @@ namespace Puzzle
             }
 
         }
+        
+        //public static PicBox SelectPicBox(int x, int y, PicBox pic)
+        //{
+        //    //Point location = someControl.PointToScreen(Point.Empty);
+        //    List<PicBox> nu = new List<PicBox>();
+        //    for (int i = 0; i < pb.Count; i++)
+        //    {
+        //        Point location = pb[i].PointToScreen(Point.Empty);
+        //        if (x > location.X && x < location.X + pb[i].Width && y > location.Y && y < location.Y + pb[i].Height && !pb[i].Equals(pic))
+        //        {
+        //            nu.Add(pb[i]);
+        //        }
+
+        //    }
+        //    //  ControlMover.AddM(nu[0]);
+        //    return nu[0];
 
 
+        //}
         public GameOnField(string id, string game_m, string rec, string log, string form, bool fromSavedGame)
         {
             ConnDatabase bd = new ConnDatabase();
@@ -93,6 +110,7 @@ namespace Puzzle
             List<Bitmap> top = new List<Bitmap>();
             //нижние пикчербоксы
             List<Bitmap> bottom = new List<Bitmap>();
+            List<Bitmap> b = new List<Bitmap>(); 
             //верхние пикчербоксы
             List<PicBox> top_pic = new List<PicBox>();
             //нижние пикчербоксы
@@ -101,6 +119,8 @@ namespace Puzzle
             List<int> top_num = new List<int>();
             //нижние номера
             List<int> bottom_num = new List<int>();
+
+       
 
 
             if (form.Equals("треугольник"))
@@ -258,6 +278,9 @@ namespace Puzzle
                     p1.SizeMode = PictureBoxSizeMode.StretchImage;
                     p1.Image = (Image)bottom[i];
                     bottom_pic.Add(p1);
+
+                  
+
                 }
                 else
                 {
@@ -328,6 +351,7 @@ namespace Puzzle
                             p.Visible = false;
                         }
                         obj[1] = 'n';
+                        obj1[1] = 'n';
                     }
                 }
                 else
@@ -389,6 +413,7 @@ namespace Puzzle
 
                 if (triangle)
                 {
+
                     this.Controls.Add(p);
                     ControlMover.Add(p);
                     this.Controls.Add(p1);

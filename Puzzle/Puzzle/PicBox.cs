@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Puzzle
 {
-    class PicBox: PictureBox
+   public class PicBox: PictureBox
     {
         public void w(PaintEventArgs e)
         {
